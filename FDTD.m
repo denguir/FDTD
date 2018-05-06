@@ -1,24 +1,26 @@
 
 % define physical properties
 freq = 900e6; % GSM
+freq_ref = 10*freq;
 c = 3e8;
 lambda = c/freq;
+lambda_ref = c/freq_ref;
 epsilon0=(1/(36*pi))*1e-9;
 mu0=4*pi*1e-7;
 Z0 = sqrt(mu0/epsilon0);
 
 % define spatial and time characteristics
-xdim = 200;
-ydim = 200;
-xsource = 100;
-ysource = 100;
-delta = lambda/10;
+xdim = 400;
+ydim = 400;
+xsource = 200;
+ysource = 200;
+delta = lambda_ref/10;
 deltaT = delta/(c*sqrt(2));
 Tmax = 1000; % length of the experiment
 
 % Brain properties
 eps_rel_brain = 43;
-radius_brain = 10;
+radius_brain = 30; % 30pixel = 20cm (scale factor due to lambda_ref)
 % Coordinates of brain
 xbrain = xsource + radius_brain;
 ybrain = ysource;
@@ -71,12 +73,12 @@ for t=0:1:Tmax
     end
     
     %Movie type colour scaled image plot of Ez
-    imagesc(1:1:xdim,(1:1:ydim)', 10*log10(abs(Ez)/Am)',[-40, 0]);colorbar; hold on;
+    imagesc(1:1:xdim,(1:1:ydim)', 20*log10(abs(Ez)/Am)',[-100, 0]);colorbar; hold on;
     colormap(jet);
     plot(real(z)+xbrain,imag(z)+ybrain,'r');
     title(['\fontsize{20}Colour-scaled image plot of Ez in a spatial domain at time = ',num2str(round(t*deltaT*1e+12)),' ps']); 
-    xlabel('x (in cm)','FontSize',20);
-    ylabel('y (in cm)','FontSize',20);
+    xlabel('x (in delta_unity)','FontSize',20);
+    ylabel('y (in delta_unity)','FontSize',20);
     set(gca,'FontSize',20);
     getframe;
 end

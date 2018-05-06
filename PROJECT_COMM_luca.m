@@ -169,7 +169,8 @@ for n=1:1:time_tot
          %Movie type colour scaled image plot of Ez
 %     surf(delta*1e+6*(1:1:xdim),(delta*1e+6*(1:1:ydim)),Ez);
 %     hold on;
-    imagesc((800:1200)*delta,((800:1200)*delta),log10(abs(SAR(800:1200,800:1200))),[-20 0]);colorbar; %zoomed
+%     imagesc((800:1200)*delta,((800:1200)*delta),log10(abs(SAR(800:1200,800:1200))),[-20 0]);colorbar; %zoomed
+    imagesc((800:1200)*delta,((800:1200)*delta),20*log10(abs(Ez(800:1200,800:1200))),[-70 0]);colorbar;
     colormap(jet);
     hold on
     theta = linspace(0,2*pi,100);

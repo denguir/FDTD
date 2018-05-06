@@ -1,8 +1,10 @@
 
 % define physical properties
 freq = 900e6; % GSM
+freq_ref = 10*freq;
 c = 3e8;
 lambda = c/freq;
+lambda_ref = c/freq_ref;
 epsilon0=(1/(36*pi))*1e-9;
 mu0=4*pi*1e-7;
 Z0 = sqrt(mu0/epsilon0);
@@ -12,7 +14,7 @@ xdim = 200;
 ydim = 200;
 xsource = 75;
 ysource = 100;
-delta = lambda/10;
+delta = lambda_ref/10;
 deltaT = delta/(c*sqrt(2));
 Tmax = 1000; % length of the experiment
 
@@ -68,7 +70,7 @@ for t=0:1:Tmax
     Ez(x_hole,y_hole1+1:ydim) = 0;
     
     %Movie type colour scaled image plot of Ez
-    imagesc(1:1:xdim,(1:1:ydim)', 10*log10(abs(Ez)/Am)',[-50, 0]);colorbar; hold on;
+    imadegesc(1:1:xdim,(1:1:ydim)', 10*log10(abs(Ez)/Am)',[-50, 0]);colorbar; hold on;
     colormap(jet);
     plot(real(z1),imag(z1),'r'); hold on;
     plot(real(z2),imag(z2),'r'); hold on;
