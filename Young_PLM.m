@@ -23,10 +23,10 @@ time_tot=1e+8;
 S=1/(2^0.5);
 delta=c/(10*frequency);
 deltat=S*delta/c;
-xsource=100;
-ysource=100;
-xdim=200;
-ydim=200;
+xsource=1000;
+ysource=1000;
+xdim=2000;
+ydim=2000;
 
 %Required reflection co-efficient
 refl_coeff=1e-6;
@@ -38,12 +38,12 @@ sigma=ones(xdim,ydim)*3.333*1e-6;
 sigmam=zeros(xdim,ydim);
 
 % Coordinates of holes
-y_hole = ysource+25;
-x_hole1 = xsource + 10;
-x_hole2 = xsource - 10;
-z1 = y_hole + 1j*(1:x_hole2-1);
-z2 = y_hole + 1j*(x_hole2+1:x_hole1-1);
-z3 = y_hole + 1j*(x_hole1+1:xdim);
+x_hole = xsource+25;
+y_hole1 = ysource + 10;
+y_hole2 = ysource - 10;
+z1 = x_hole + 1j*(1:y_hole2-1);
+z2 = x_hole + 1j*(y_hole2+1:y_hole1-1);
+z3 = x_hole + 1j*(y_hole1+1:ydim);
 
 
 for i=1:length(sigma_e)
@@ -126,9 +126,9 @@ for n=1:1:time_tot
     SAR=sigma.*(Ez.^2)/rho1;
     
     % conditions of electric field on metal
-    Ez(1:1:x_hole2-1,y_hole) = 0;
-    Ez(x_hole2+1:x_hole1-1,y_hole) = 0;
-    Ez(x_hole1+1:xdim, y_hole) = 0;
+    Ez(1:1:y_hole2-1,x_hole) = 0;
+    Ez(y_hole2+1:y_hole1-1,x_hole) = 0;
+    Ez(y_hole1+1:ydim,x_hole) = 0;
     
     if n11==1
         Ez(:,n11)=0;
@@ -165,14 +165,13 @@ for n=1:1:time_tot
          %Movie type colour scaled image plot of Ez
 %     surf(delta*1e+6*(1:1:xdim),(delta*1e+6*(1:1:ydim)),Ez);
 %     hold on;
-    imagesc((1:xdim),((1:ydim)'),20*log10(abs(Ez)),[-100 0]);colorbar;
-    plot(real(z1),imag(z1),'r'); hold on;
-    plot(real(z2),imag(z2),'r'); hold on;
-    plot(real(z3),imag(z3),'r');
+    imagesc((800:1200)*delta,((800:1200)*delta),20*log10(abs(Ez(800:1200,800:1200))),[-70 0]);colorbar; hold on;
+    plot(real(z1)*delta,imag(z1)*delta,'r'); hold on;
+    plot(real(z2)*delta,imag(z2)*delta,'r'); hold on;
+    plot(real(z3)*delta,imag(z3)*delta,'r');
     title([' Power (dBm) in a spatial domain at time = ',num2str(round(n*deltat*1e9)),' ns']); 
     xlabel('x (in mm)','FontSize',20);
     ylabel('y (in mm)','FontSize',20);
     set(gca,'FontSize',20);
     getframe;
 end
-    
