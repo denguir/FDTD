@@ -70,7 +70,7 @@ for t=0:1:Tmax
     Ez(x_hole,y_hole1+1:ydim) = 0;
     
     %Movie type colour scaled image plot of Ez
-    imadegesc(1:1:xdim,(1:1:ydim)', 10*log10(abs(Ez)/Am)',[-50, 0]);colorbar; hold on;
+    imagesc(1:1:xdim,(1:1:ydim)', 20*log10(abs(Ez)/Am)',[-100, 0]);colorbar; hold on;
     colormap(jet);
     plot(real(z1),imag(z1),'r'); hold on;
     plot(real(z2),imag(z2),'r'); hold on;
