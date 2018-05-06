@@ -10,7 +10,7 @@ Z0 = sqrt(mu0/epsilon0);
 % define spatial and time characteristics
 xdim = 200;
 ydim = 200;
-xsource = 100;
+xsource = 75;
 ysource = 100;
 delta = lambda/10;
 deltaT = delta/(c*sqrt(2));
@@ -19,23 +19,16 @@ Tmax = 1000; % length of the experiment
 % Brain properties
 eps_rel_brain = 43;
 radius_brain = 10;
-% Coordinates of brain
-xbrain = xsource + radius_brain;
-ybrain = ysource;
-theta = linspace(0,2*pi,100);
-rho = radius_brain*ones(1,100);
-z = rho.*exp(1i*theta);
-
+% Coordinates of holes
+x_hole = 100;
+y_hole1 = ysource + 10;
+y_hole2 = ysource - 10;
+z1 = x_hole + 1j*(1:y_hole2-1);
+z2 = x_hole + 1j*(y_hole2+1:y_hole1-1);
+z3 = x_hole + 1j*(y_hole1+1:ydim);
 % build a map matrix with material relative properties
 map_epsilon_rel = ones(xdim, ydim);
 map_mu_rel = ones(xdim, ydim);
-for x=1:xdim
-    for y=1:ydim
-        if (x-xbrain)^2 + (y-ybrain)^2 < radius_brain^2
-            map_epsilon_rel(x,y) = eps_rel_brain;
-        end
-    end
-end
 
 % build a map matrix with material absolute properties
 map_epsilon = epsilon0*map_epsilon_rel;
@@ -69,11 +62,17 @@ for t=0:1:Tmax
             S(m,n) = (abs(Ez(m,n))^2)/(2*Z0);
         end
     end
+    % conditions of electric field on metal
+    Ez(x_hole,1:1:y_hole2-1) = 0;
+    Ez(x_hole,y_hole2+1:y_hole1-1) = 0;
+    Ez(x_hole,y_hole1+1:ydim) = 0;
     
     %Movie type colour scaled image plot of Ez
-    imagesc(1:1:xdim,(1:1:ydim)', 10*log10(abs(Ez)/Am)',[-40, 0]);colorbar; hold on;
+    imagesc(1:1:xdim,(1:1:ydim)', 10*log10(abs(Ez)/Am)',[-50, 0]);colorbar; hold on;
     colormap(jet);
-    plot(real(z)+xbrain,imag(z)+ybrain,'r');
+    plot(real(z1),imag(z1),'r'); hold on;
+    plot(real(z2),imag(z2),'r'); hold on;
+    plot(real(z3),imag(z3),'r');
     title(['\fontsize{20}Colour-scaled image plot of Ez in a spatial domain at time = ',num2str(round(t*deltaT*1e+12)),' ps']); 
     xlabel('x (in cm)','FontSize',20);
     ylabel('y (in cm)','FontSize',20);

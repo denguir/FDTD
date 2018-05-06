@@ -43,7 +43,7 @@ x_circle=1000;
 y_circle=1000;
 Rayon=30;
 
-for k=1:1:xdim
+for k=1:1:ydim
     for l=1:1:xdim
         if (k-x_circle)^2+(l-y_circle)^2 <(Rayon)^2
             sigma(k,l)=1.3;
