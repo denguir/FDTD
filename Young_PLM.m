@@ -18,7 +18,7 @@ for i=1:size_sigma_vec
 end
 sigma_m=mu0*sigma_e/epsilon0;
 %Total no of time steps
-time_tot=1e+8;
+time_tot=1200;
 %stability and step
 S=1/(2^0.5);
 delta=c/(10*frequency);
@@ -85,6 +85,7 @@ cst5=(1-sigmam*deltat./(2*Mu))./(1+sigmam*deltat./(2*Mu));
 % Update loop begins
 
 for n=1:1:time_tot
+    n
         %if source is impulse or unit-time step 
     if  sine==0 && n==1
         Ez(xsource,ysource)=1;
@@ -165,11 +166,11 @@ for n=1:1:time_tot
          %Movie type colour scaled image plot of Ez
 %     surf(delta*1e+6*(1:1:xdim),(delta*1e+6*(1:1:ydim)),Ez);
 %     hold on;
-    imagesc((800:1200)*delta,((800:1200)*delta),20*log10(abs(Ez(800:1200,800:1200))),[-70 0]);colorbar; hold on;
+    imagesc((1:xdim)*delta,((1:ydim)*delta),20*log10(abs(Ez)),[-70 0]);colorbar; hold on;
     plot(real(z1)*delta,imag(z1)*delta,'r'); hold on;
     plot(real(z2)*delta,imag(z2)*delta,'r'); hold on;
     plot(real(z3)*delta,imag(z3)*delta,'r');
-    title([' Power (dBm) in a spatial domain at time = ',num2str(round(n*deltat*1e9)),' ns']); 
+    title([' Ez (dBm) in a spatial domain at time = ',num2str(round(n*deltat*1e9)),' ns']); 
     xlabel('x (in mm)','FontSize',20);
     ylabel('y (in mm)','FontSize',20);
     set(gca,'FontSize',20);

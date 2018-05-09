@@ -75,7 +75,7 @@ for t=0:1:Tmax
     plot(real(z1),imag(z1),'r'); hold on;
     plot(real(z2),imag(z2),'r'); hold on;
     plot(real(z3),imag(z3),'r');
-    title(['\fontsize{20}Colour-scaled image plot of Ez in a spatial domain at time = ',num2str(round(t*deltaT*1e+12)),' ps']); 
+    title(['\fontsize{20}Colour-scaled image plot of Ez in a spatial domain at time = ',num2str(round(t*deltaT*1e+9)),' ps']); 
     xlabel('x (in cm)','FontSize',20);
     ylabel('y (in cm)','FontSize',20);
     set(gca,'FontSize',20);
