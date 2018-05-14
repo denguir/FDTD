@@ -14,6 +14,7 @@ sigma_e=[];
 size_sigma_vec=15;
 scale=4
 
+% Setting of sigma for PML
 acum=0;
 for i=1:size_sigma_vec
     acum=acum+1/size_sigma_vec;
@@ -56,8 +57,8 @@ Hy=zeros(xdim,ydim);
 Hx=zeros(xdim,ydim);
 Power=zeros(xdim,ydim);
 
-%Multiplication factor matrices for E matrix update to avoid being calculated many times 
-%in the time update loop so as to increase computation speed                           
+%Multiplication factor matrices for E matrix update 
+
 cst=((deltat/delta)./Eps)./(1+sigma*deltat./(2*Eps));   
 cst2=((deltat/delta)./Mu)./(1+sigmam*deltat./(2*Mu));
 cst4=(1-sigma*deltat./(2*Eps))./(1+sigma*deltat./(2*Eps));
@@ -135,16 +136,10 @@ for n=1:1:time_tot
             Ez(xsource,ysource)=sin(((2*pi*frequency)*(n-tstart)*deltat)); 
 
          %Movie type colour scaled image plot of Ez
-%     surf(delta*1e+6*(1:1:xdim),(delta*1e+6*(1:1:ydim)),Ez);
 %     hold on;
     imagesc((1:xdim)*delta,((1:ydim)*delta),10*log10(Power),[-80 0]);colorbar; %zoomed
     colormap(jet);
     hold off
-%     theta = linspace(0,2*pi,100);
-%     rho = Rayon*ones(1,100);
-%     z = rho.*exp(1i*theta);
-%     plot((real(z)+x_circle)*delta,(imag(z)+y_circle)*delta,'r');
-%     hold on
     title([' Power(dB) in a spatial domain at time = ',num2str((n*sqrt(2)*deltat)),' s']); 
     xlabel('x (in m)','FontSize',20);
     ylabel('y (in m)','FontSize',20);
